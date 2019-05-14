@@ -4,8 +4,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function addTask(task) {
     const listEl = document.createElement('li');
-    listEl.textContent = task;
+    listEl.innerHTML = `${task}<button>X</button>`;
     tasksEl.appendChild(listEl);
+    const deleteBtn = listEl.querySelector('button');
+    deleteBtn.addEventListener('click', () => {
+      listEl.remove();
+    });
   }
 
   formEl.addEventListener('submit', (event) => {
