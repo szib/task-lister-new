@@ -9,16 +9,20 @@ document.addEventListener('DOMContentLoaded', () => {
       case 2:
         return 'red';
       default:
-        return 'yellow';
+        return 'olive';
     }
   }
 
   function addTask(task) {
     const listEl = document.createElement('li');
     const priority = document.querySelector('#task-priority');
+
+    listEl.setAttribute('data-priority', priority.options.selectedIndex);
     listEl.style.color = color(priority.options.selectedIndex);
+
     listEl.innerHTML = `${task}<button>X</button>`;
     tasksEl.appendChild(listEl);
+
     const deleteBtn = listEl.querySelector('button');
     deleteBtn.addEventListener('click', () => {
       listEl.remove();
