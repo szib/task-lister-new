@@ -29,21 +29,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function addTask(task) {
-    const priority = document.querySelector('#task-priority');
-    taskData = [...taskData, [task, priority.options.selectedIndex]];
+  function getRandomId() {
+    return Math.floor(Math.random() * (1000000 - 1)) + 1;
   }
 
-  function buildLi(task, priority) {
+  function addTask(task, priority) {
+    taskData = [...taskData, [task, priority, getRandomId()]];
+  }
+
+  function buildLi(data) {
+    const [task, priority, id] = data;
     const listEl = document.createElement('li');
     listEl.setAttribute('data-priority', priority);
+    listEl.setAttribute('data-taskid', id);
     listEl.style.color = color(priority);
     listEl.innerHTML = `${task}<button>X</button>`;
     tasksEl.appendChild(listEl);
 
     const deleteBtn = listEl.querySelector('button');
     deleteBtn.addEventListener('click', () => {
-      listEl.remove();
+      taskData = taskData.filter(element => element[2] !== parseInt(id, 10));
+      buildUl();
     });
     return listEl;
   }
@@ -51,14 +57,15 @@ document.addEventListener('DOMContentLoaded', () => {
   function buildUl() {
     tasksEl.innerHTML = '';
     taskData.sort(sorterFunction).forEach((data) => {
-      tasksEl.appendChild(buildLi(data[0], data[1]));
+      tasksEl.appendChild(buildLi(data));
     });
   }
 
   formEl.addEventListener('submit', (event) => {
     event.preventDefault();
     const task = formEl['new-task-description'].value;
-    addTask(task);
+    const priority = document.querySelector('#task-priority').options.selectedIndex;
+    addTask(task, priority);
     buildUl();
     formEl.reset();
   });
