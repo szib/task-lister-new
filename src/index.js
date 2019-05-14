@@ -8,9 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function byName(a, b) {
-    if (a > b) {
+    if (a[0] > b[0]) {
       return 1;
-    } if (a < b) {
+    } if (a[0] < b[0]) {
       return -1;
     }
     return 0;
